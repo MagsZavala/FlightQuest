@@ -1,8 +1,4 @@
 -- Drop the table if it exists (optional, use only if needed)
-DROP DATABASE IF EXISTS flightquest_db;
-
-CREATE DATABASE flightquest_db;
-
 DROP TABLE IF EXISTS users;
 
 -- Create the users table
