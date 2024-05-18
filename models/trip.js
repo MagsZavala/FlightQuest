@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => { 
+module.exports = (sequelize) => {
     class Trip extends Model {}
 
     Trip.init({
@@ -58,11 +58,11 @@ module.exports = (sequelize) => {
             allowNull: true
         },
         price: {
-            type: DataTypes.DECIMAL(10,2),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         }
     }, {
-        sequelize, 
+        sequelize,
         timestamps: true,
         freezeTableName: true,
         underscored: true,

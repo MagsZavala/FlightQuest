@@ -1,14 +1,23 @@
-<!-- login.handlebars -->
-<div class="login-form">
-    <div class="login-title">Login</div>
-    <form method="POST" action="/login">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <!-- Display error message if there is one -->
-        {{#if message}}
-            <p class="error-message">{{message}}</p>
-        {{/if}}
-        <button type="submit">Login!</button>
-    </form>
-    <a href="/signup" class="sign-up-link">Sign up instead</a>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div class="login-form">
+        <div class="login-title">Login</div>
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <!-- Display error message if there is one -->
+            {{#if message}}
+                <p class="error-message">{{message}}</p>
+            {{/if}}
+            <button type="submit">Login!</button>
+        </form>
+        <a href="/signup" class="sign-up-link">Sign up instead</a>
+    </div>
+</body>
+</html>

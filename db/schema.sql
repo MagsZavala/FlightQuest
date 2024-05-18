@@ -1,5 +1,8 @@
 -- Drop the table if it exists (optional, use only if needed)
+DROP TABLE IF EXISTS trip;
+DROP TABLE IF EXISTS flights;
 DROP TABLE IF EXISTS users;
+
 
 -- Create the users table
 CREATE TABLE users (
@@ -9,13 +12,12 @@ CREATE TABLE users (
 );
 
 -- Drop the table if it exists (optional, use only if needed)
-DROP TABLE IF EXISTS trip;
 
--- Create the trip table
-CREATE TABLE trip (
+-- Create the flights table
+CREATE TABLE flights (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    flightNumber VARCHAR(255) NOT NULL,
     destination VARCHAR(255) NOT NULL,
-    date DATE NOT NULL,
     userId INT,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );

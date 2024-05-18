@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Flights</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <div class="saved-flights-container">
+        <h1>Saved Flights</h1>
+        <ul>
+            {{#each flights}}
+                <li>{{flightNumber}} - {{destination}}</li>
+            {{/each}}
+        </ul>
+    </div>
+</body>
+</html>

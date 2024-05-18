@@ -1,0 +1,12 @@
+<main class="content-panel">
+    {{#if flights.length}}
+        <h2>Flight Results</h2>
+        <ul>
+            {{#each flights}}
+                <li>{{this.airline}} from {{this.from}} to {{this.to}} - ${{this.price}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>No flights found.</p>
+    {{/if}}
+</main>

@@ -1,65 +1,303 @@
 <aside class="search-panel">
-    <h2>Book a Flight</h2>
-    <div class="input-group">
-        <label for="trip-type">Trip Type</label>
-        <select id="trip-type">
-            <option value="oneway">One-way</option>
-            <option value="roundtrip">Roundtrip</option>
-            <option value="multicity">Multi-city (coming soon!)</option>
-        </select>
-    </div>
-    <div class="input-group">
-        <label for="from">From</label>
-        <input type="text" id="from" placeholder="Enter departure city">
-    </div>
-    <div class="input-group">
-        <label for="to">To</label>
-        <input type="text" id="to" placeholder="Enter destination city">
-    </div>
-    <div class="input-group">
-        <label for="depart-date">Depart Date</label>
-        <input type="date" id="depart-date">
-    </div>
-    <div class="input-group" id="return-date-group">
-        <label for="return-date">Return Date</label>
-        <input type="date" id="return-date">
-    </div>
-    <div id="multi-city-container"></div>
-    <div class="input-group" id="passengerDropdownHolder">
-        <label for="passengerDropdown">Passengers</label>
-        <button id="passengerDropdown" class="passenger-btn">Select Passengers</button>
-        <div class="passenger-dropdown-content" id="passengerDropdownContent" style="display:none;">
-            <div class="passenger-count">
-                <label for="adults">Adults</label>
-                <button type="button" class="quantity-btn decrease">-</button>
-                <input type="number" id="adults" value="1" min="1" readonly>
-                <button type="button" class="quantity-btn increase">+</button>
-            </div>
-            <div class="passenger-count">
-                <label for="children">Children</label>
-                <button type="button" class="quantity-btn decrease">-</button>
-                <input type="number" id="children" value="0" min="0" readonly>
-                <button type="button" class="quantity-btn increase">+</button>
-            </div>
-            <div class="passenger-count">
-                <label for="infants">Infants</label>
-                <button type="button" class="quantity-btn decrease">-</button>
-                <input type="number" id="infants" value="0" min="0" readonly>
-                <button type="button" class="quantity-btn increase">+</button>
+    <form id="search-form">
+        <h2>Book a Flight</h2>
+        <div class="input-group">
+            <label for="trip-type">Trip Type</label>
+            <select id="trip-type" name="trip-type">
+                <option value="oneway">One-way</option>
+                <option value="roundtrip">Roundtrip</option>
+                <option value="multicity">Multi-city (coming soon!)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="from">From</label>
+            <input type="text" id="from" name="from" placeholder="Enter departure city">
+        </div>
+        <div class="input-group">
+            <label for="to">To</label>
+            <input type="text" id="to" name="to" placeholder="Enter destination city">
+        </div>
+        <div class="input-group">
+            <label for="depart-date">Depart Date</label>
+            <input type="date" id="depart-date" name="depart-date">
+        </div>
+        <div class="input-group" id="return-date-group">
+            <label for="return-date">Return Date</label>
+            <input type="date" id="return-date" name="return-date">
+        </div>
+        <div id="multi-city-container"></div>
+        <div class="input-group" id="passengerDropdownHolder">
+            <label for="passengerDropdown">Passengers</label>
+            <button type="button" id="passengerDropdown" class="passenger-btn">Select Passengers</button>
+            <div class="passenger-dropdown-content" id="passengerDropdownContent" style="display:none;">
+                <div class="passenger-count">
+                    <label for="adults">Adults</label>
+                    <button type="button" class="quantity-btn decrease">-</button>
+                    <input type="number" id="adults" name="adults" value="1" min="1" readonly>
+                    <button type="button" class="quantity-btn increase">+</button>
+                </div>
+                <div class="passenger-count">
+                    <label for="children">Children</label>
+                    <button type="button" class="quantity-btn decrease">-</button>
+                    <input type="number" id="children" name="children" value="0" min="0" readonly>
+                    <button type="button" class="quantity-btn increase">+</button>
+                </div>
+                <div class="passenger-count">
+                    <label for="infants">Infants</label>
+                    <button type="button" class="quantity-btn decrease">-</button>
+                    <input type="number" id="infants" name="infants" value="0" min="0" readonly>
+                    <button type="button" class="quantity-btn increase">+</button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="input-group">
-        <label for="class">Class</label>
-        <select id="class">
-            <option value="economy">Economy</option>
-            <option value="premium_economy">Premium Economy</option>
-            <option value="business">Business</option>
-            <option value="first_class">First Class</option>
-        </select>
-    </div>
-    <button type="submit" class="search-btn">Search Flights</button>
+        <div class="input-group">
+            <label for="class">Class</label>
+            <select id="class" name="class">
+                <option value="economy">Economy</option>
+                <option value="premium_economy">Premium Economy</option>
+                <option value="business">Business</option>
+                <option value="first_class">First Class</option>
+            </select>
+        </div>
+        <button type="submit" class="search-btn">Search Flights</button>
+    </form>
 </aside>
 <main class="content-panel">
     <!-- Content here will be dynamically loaded based on search results -->
+    <div id="resultsContainer"></div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var tripTypeSelector = document.getElementById('trip-type');
+    var multiCityContainer = document.getElementById('multi-city-container');
+    tripTypeSelector.addEventListener('change', function() {
+        if (this.value === 'multicity') {
+            multiCityContainer.innerHTML = `
+                <div class="input-group">
+                    <label for="from-2">From</label>
+                    <input type="text" id="from-2" placeholder="Enter additional departure city">
+                </div>
+                <div class="input-group">
+                    <label for="to-2">To</label>
+                    <input type="text" id="to-2" placeholder="Enter additional destination city">
+                </div>`;
+        } else {
+            multiCityContainer.innerHTML = '';
+        }
+    });
+
+    document.getElementById('search-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const fromCity = document.getElementById('from').value;
+        const toCity = document.getElementById('to').value;
+        const departDate = document.getElementById('depart-date').value;
+
+        // Additional logic to handle dynamic passenger counts, trip type, and class selection
+        const passengerCounts = {
+            adults: parseInt(document.getElementById('adults').value),
+            children: parseInt(document.getElementById('children').value),
+            infants: parseInt(document.getElementById('infants').value)
+        };
+        const tripType = tripTypeSelector.value;
+        const classType = document.getElementById('class').value;
+
+        console.log("Search parameters:", { fromCity, toCity, departDate, passengerCounts, tripType, classType });  // Added console.log to inspect search parameters
+
+        try {
+            // Fetch the fromId and toId for the airports
+            const fromIdResponse = await fetch(`/api/getAirportId?city=${encodeURIComponent(fromCity)}`);
+            if (!fromIdResponse.ok) throw new Error('Failed to fetch fromId');
+            const fromIdData = await fromIdResponse.json();
+            const fromId = fromIdData.airportId;
+
+            const toIdResponse = await fetch(`/api/getAirportId?city=${encodeURIComponent(toCity)}`);
+            if (!toIdResponse.ok) throw new Error('Failed to fetch toId');
+            const toIdData = await toIdResponse.json();
+            const toId = toIdData.airportId;
+
+            console.log("Airport IDs:", { fromId, toId });
+
+            // Fetch the flights using the obtained airport IDs
+            const flightResponse = await fetch(`/search-flights?fromId=${fromId}&toId=${toId}&departDate=${departDate}&passengers=${JSON.stringify(passengerCounts)}&class=${classType}&tripType=${tripType}`);
+            if (!flightResponse.ok) throw new Error('Failed to fetch flight data');
+            const flightResults = await flightResponse.json();
+            console.log("Search results:", flightResults);  // Added console.log to inspect search results
+            updateResultsDisplay(flightResults);
+        } catch (error) {
+            console.error('Fetch error:', error);
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = 'Failed to load flights.';
+        }
+    });
+
+    function updateResultsDisplay(results) {
+        console.log(results);
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = '';
+
+        // Verify the structure of results.data.flightOffers
+        if (results.status && results.data && results.data.flightOffers && Array.isArray(results.data.flightOffers)) {
+            results.data.flightOffers.forEach(flight => {
+                // Log the flight object for debugging
+                console.log(flight);
+
+                // Extract relevant details
+                const segments = flight.segments[0];
+                const departureAirport = segments.departureAirport.code;
+                const arrivalAirport = segments.arrivalAirport.code;
+                const price = flight.priceBreakdown.total.units;
+                const departureTime = new Date(segments.departureTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                const arrivalTime = new Date(segments.arrivalTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                const duration = formatDuration(segments.totalTime);
+                const airlineName = segments.legs[0].carriersData[0].name;
+                const layovers = segments.legs[0].flightStops;
+
+                // Create a container element for each flight
+                const card = document.createElement('section');
+                card.classList.add('cardsection');
+
+                const detailsContainer = document.createElement('div');
+                detailsContainer.classList.add('detailsContainer');
+
+                const bookingContainer = document.createElement('div');
+                bookingContainer.classList.add('bookingContainer');
+
+                const airlineInfoContainer = document.createElement('div');
+                airlineInfoContainer.classList.add("airlineInfoContainer");
+
+                // Price Element
+                const airfareElement = document.createElement('div');
+                airfareElement.classList.add("airfairprice");
+                airfareElement.textContent = "$ " + price;
+                bookingContainer.appendChild(airfareElement);
+
+                // Book Button
+                const bookButton = document.createElement('button');
+                bookButton.classList.add('bookButton');
+                bookButton.textContent = 'Book Now';
+                bookButton.addEventListener('click', function() {
+                    bookFlight(flight, 'inbound'); // Pass 'inbound' as the direction
+                });
+                bookingContainer.appendChild(bookButton);
+
+                // Save Button
+                const saveButton = document.createElement('button');
+                saveButton.classList.add('saveButton');
+                saveButton.innerHTML = '&#9825;'; // Heart symbol
+                saveButton.addEventListener('click', function() {
+                    let savedFlights = localStorage.getItem('savedFlights');
+                    savedFlights = savedFlights ? JSON.parse(savedFlights) : [];
+
+                    if (!savedFlights.some(f => f.token === flight.token)) {
+                        saveFlightOption(flight);
+                        this.innerHTML = '&#9829;'; // Filled heart symbol
+                        this.classList.add('saved');
+                    } else {
+                        savedFlights = savedFlights.filter(f => f.token !== flight.token);
+                        localStorage.setItem('savedFlights', JSON.stringify(savedFlights));
+                        this.innerHTML = '&#9825;'; // Empty heart symbol
+                        this.classList.remove('saved');
+                    }
+                });
+                bookingContainer.appendChild(saveButton);
+
+                // Airline Name
+                const airlineCodeElement = document.createElement('div');
+                airlineCodeElement.classList.add("airlineCode");
+                airlineCodeElement.textContent = airlineName;
+                airlineInfoContainer.appendChild(airlineCodeElement);
+
+                // Layovers
+                const layOversElement = document.createElement('div');
+                layOversElement.classList.add("layOvers");
+                layOversElement.textContent = `Layovers: ${layovers}`;
+                airlineInfoContainer.appendChild(layOversElement);
+
+                detailsContainer.appendChild(airlineInfoContainer);
+
+                const travelInfoContainer = document.createElement('div');
+                travelInfoContainer.classList.add('travelInfoContainer');
+
+                // Departure and Arrival Times
+                const departureAirportElement = document.createElement('div');
+                departureAirportElement.classList.add('departAirport');
+                departureAirportElement.innerHTML = `${departureAirport}<br><span class='time'>${departureTime}</span>`;
+                travelInfoContainer.appendChild(departureAirportElement);
+
+                // Separator
+                const separator = document.createElement('span');
+                separator.textContent = ' -------------------- ';
+                travelInfoContainer.appendChild(separator);
+
+                const arrivalAirportElement = document.createElement('div');
+                arrivalAirportElement.classList.add('arrivalAirport');
+                arrivalAirportElement.innerHTML = `${arrivalAirport}<br><span class='time'>${arrivalTime}</span>`;
+                travelInfoContainer.appendChild(arrivalAirportElement);
+
+                // Flight Duration
+                const flightDurationElement = document.createElement('div');
+                flightDurationElement.classList.add('flightDuration');
+                flightDurationElement.textContent = `Duration: ${duration}`;
+                travelInfoContainer.appendChild(flightDurationElement);
+
+                detailsContainer.appendChild(travelInfoContainer);
+
+                card.appendChild(detailsContainer);
+                card.appendChild(bookingContainer);
+
+                // Append the item container to the content panel
+                container.appendChild(card);
+            });
+        } else {
+            container.innerHTML = 'No flight results found.';
+        }
+    }
+
+    function formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        return `${hours}h ${minutes}m`;
+    }
+
+    function bookFlight(flightData, direction) {
+        if (direction === 'outbound') {
+            selectedOutboundFlight = flightData;
+            // Clear the flight display and search for inbound flights
+            clearFlightDisplay();
+            SearchflightAPI(flightData.toID, flightData.fromID, searchData.returnDate, 'inbound');
+        } else if (direction === 'inbound') {
+            // Generate a unique reference number
+            const referenceNumber = Math.floor(Math.random() * 10000000000);
+            alert(`Enjoy your journey! Your flight is booked, and here is your reference number: ${referenceNumber}`);
+            // Reset global variables and reload the page or redirect the user
+            selectedOutboundFlight = null;
+            searchData = null;
+            window.location.reload();
+        }
+    }
+
+    function saveFlightOption(flightData) {
+        // Retrieve saved flights from local storage
+        let savedFlights = localStorage.getItem('savedFlights');
+        savedFlights = savedFlights ? JSON.parse(savedFlights) : [];
+
+        // Add the new flight data
+        savedFlights.push(flightData);
+
+        // Save the updated list back to local storage
+        localStorage.setItem('savedFlights', JSON.stringify(savedFlights));
+
+        console.log('Flight saved:', flightData);
+    }
+
+    function clearFlightDisplay() {
+        const contentPanel = document.querySelector('.content-panel');
+        contentPanel.innerHTML = ''; // Clear existing content
+    }
+});
+</script>
+
+
+
+

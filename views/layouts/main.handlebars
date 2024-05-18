@@ -20,35 +20,30 @@
             </ul>
         </nav>
         <h1>FlightQuest</h1>
-
-
     </header>
 
     {{{body}}}
 
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const signupSuccess = urlParams.get('signup');
+            const loginSuccess = urlParams.get('login');
+            const signupError = urlParams.get('signupError');
+            const loginError = urlParams.get('loginError');
 
-<script>
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const signupSuccess = urlParams.get('signup');
-    const loginSuccess = urlParams.get('login');
-    const signupError = urlParams.get('signupError');
-    const loginError = urlParams.get('loginError');
+            if (signupSuccess === 'success') {
+                alert('Signup successful!');
+            } else if (signupError) {
+                alert('Signup failed: ' + signupError);
+            }
 
-    if (signupSuccess === 'success') {
-        alert('Signup successful!');
-    } else if (signupError) {
-        alert('Signup failed: ' + signupError);
-    }
-
-    if (loginSuccess === 'success') {
-        alert('Login successful!');
-    } else if (loginError) {
-        alert('Login failed: ' + loginError);
-    }
-}
-</script>
-
-
+            if (loginSuccess === 'success') {
+                alert('Login successful!');
+            } else if (loginError) {
+                alert('Login failed: ' + loginError);
+            }
+        }
+    </script>
 </body>
 </html>
